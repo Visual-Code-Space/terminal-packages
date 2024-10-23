@@ -23,7 +23,7 @@ TERMUX_PACKAGE_MANAGERS=("apt")
 
 # The repository base urls mapping for package managers.
 declare -A REPO_BASE_URLS=(
-	["apt"]="https://packages.androidide.com/apt/termux-main"
+	["apt"]="https://androididepkg.visualcodespace.com.br/apt/termux-main"
 )
 
 # The package manager that will be installed in bootstrap.

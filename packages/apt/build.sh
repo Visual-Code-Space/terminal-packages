@@ -72,7 +72,7 @@ termux_step_pre_configure() {
 termux_step_post_make_install() {
 	{
 		echo "# The main AndroidIDE repository"
-		echo "deb https://packages.androidide.com/apt/termux-main/ stable main"
+		echo "deb https://androididepkg.visualcodespace.com.br/apt/termux-main/ stable main"
 #		echo "# The main termux repository, without cloudflare cache"
 #		echo "# deb https://packages.termux.dev/apt/termux-main/ stable main"
 	} > $TERMUX_PREFIX/etc/apt/sources.list

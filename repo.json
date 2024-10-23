@@ -4,6 +4,6 @@
     "name": "termux-main",
     "distribution": "stable",
     "component": "main",
-    "url": "https://packages.androidide.com/apt/termux-main"
+    "url": "https://androididepkg.visualcodespace.com.br/apt/termux-main"
   }
 }
