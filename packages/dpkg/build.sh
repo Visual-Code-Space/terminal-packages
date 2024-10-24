@@ -2,10 +2,11 @@ TERMUX_PKG_HOMEPAGE=https://packages.debian.org/dpkg
 TERMUX_PKG_DESCRIPTION="Debian package management system"
 TERMUX_PKG_LICENSE="GPL-2.0"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="1.22.1"
+TERMUX_PKG_VERSION="1.22.6"
 TERMUX_PKG_REVISION=1
-TERMUX_PKG_SRCURL=https://mirrors.kernel.org/debian/pool/main/d/dpkg/dpkg_${TERMUX_PKG_VERSION}.tar.xz
-TERMUX_PKG_SHA256=5a4824e9869494e501953c7466ab1960a7fa23d9b0b911b8a6f113094e0226cf
+# old tarball are removed in https://mirrors.kernel.org/debian/pool/main/d/dpkg/dpkg_${TERMUX_PKG_VERSION}.tar.xz
+TERMUX_PKG_SRCURL=git+https://salsa.debian.org/dpkg-team/dpkg.git
+TERMUX_PKG_GIT_BRANCH="${TERMUX_PKG_VERSION}"
 TERMUX_PKG_AUTO_UPDATE=false
 TERMUX_PKG_DEPENDS="bzip2, coreutils, diffutils, gzip, less, libbz2, liblzma, libmd, tar, xz-utils, zlib, zstd"
 TERMUX_PKG_ANTI_BUILD_DEPENDS="clang"
@@ -71,6 +72,11 @@ share/polkit-1
 "
 
 termux_step_pre_configure() {
+	(
+		cd "${TERMUX_PKG_SRCDIR}" && \
+		./autogen && \
+		patch -p1 -i "${TERMUX_PKG_BUILDER_DIR}"/configure.diff
+	)
 	export TAR=tar # To make sure dpkg tries to use "tar" instead of e.g. "gnutar" (which happens when building on OS X)
 	perl -p -i -e "s/TERMUX_ARCH/$TERMUX_ARCH/" $TERMUX_PKG_SRCDIR/configure
 	sed -i 's/$req_vars = \$arch_vars.$varname./if ($varname eq "DEB_HOST_ARCH_CPU" or $varname eq "DEB_HOST_ARCH"){ print("'$TERMUX_ARCH'");exit; }; $req_vars = $arch_vars{$varname}/' scripts/dpkg-architecture.pl
